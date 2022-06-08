@@ -15,7 +15,7 @@ const app = express()
 require('./config')(app)
 
 // 👇 Start handling routes here
-app.use('/testtoken', require('./routes/index'))
+app.use('/test', require('./routes/index'))
 app.use('/auth',require('./routes/auth.route'))
 app.use('/main',require('./routes/main.route'))
 app.use('/private',require('./routes/private.route'))
