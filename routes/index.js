@@ -8,8 +8,9 @@ router.get('/', authorization, (req, res, next) => {
   res.json({ success: true })
 })
 
-router.get('/getAll', (req,res,next)=>{
-  const users = User.find()
+router.get('/getAll', async(req,res,next)=>{
+  const users = await User.find({})
+  console.log(users)
   res.status(200).json(users)
 } )
 
