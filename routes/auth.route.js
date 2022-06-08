@@ -2,7 +2,9 @@ const User = require('../models/User.model')
 const bcrypt = require('bcrypt')
 const router = require('express').Router()
 const jwt = require('jsonwebtoken')
+const minLengthIdPass = require('../middleware/minLengthIdPass.mid')
 require('dotenv').config()
+
 
 router.get('/signup',(req,res,next)=>{
     try{
@@ -14,7 +16,7 @@ router.get('/signup',(req,res,next)=>{
     }
 })
 
-router.post('/signup', async (req,res,next)=>{
+router.post('/signup', minLengthIdPass, async (req,res,next)=>{
     //empty field error
     if(Object.values(req.body).includes('')){
         console.log('ERROR ! empty field !')
@@ -22,6 +24,7 @@ router.post('/signup', async (req,res,next)=>{
             message : "empty field error"
         })
     }
+    //username and passwords cannot be the same !
     if(req.body.username===req.body.password){
         res.status(400).json({
             message : "username cannot be repeated"
@@ -44,7 +47,7 @@ router.post('/signup', async (req,res,next)=>{
     }
 })
 
-router.post('/signin', async(req,res,next)=>{
+router.post('/signin', minLengthIdPass, async(req,res,next)=>{
     try{
         const {username,password} = req.body
         const foundUser = await User.findOne({username})
